@@ -66,7 +66,7 @@ router.post("/signin", (req, res) => {
           token => {
             res.json({
               success: true,
-              token: token
+              token: "Bearer " + token
             });
           }
         );

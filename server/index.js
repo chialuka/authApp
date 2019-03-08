@@ -5,7 +5,7 @@ const database = require("./database");
 
 const users = require("./routes/loggers")
 
-const port = process.env.port || 8080;
+const port = process.env.port || 7000;
 
 const app = express();
 
@@ -23,5 +23,5 @@ require("./config/passport")(passport)
 app.use("/users", users)
 
 database.once("open", () => {
-  app.listen(port, () => console.log("server running on port ", port));
+  app.listen(port, () => console.log("server running on port", port));
 });
