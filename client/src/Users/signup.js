@@ -1,7 +1,15 @@
 import React, { Component } from "react";
-import axios from "axios"
+import axios from "axios";
+import { withRouter, Link } from "react-router-dom"
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+
+const SignUp = () => (
+  <div>
+    Sign Up
+    <SignUpForm />
+  </div>
+)
 
 const userDetails = {
   name: "",
@@ -10,7 +18,7 @@ const userDetails = {
   password2: ""
 };
 
-class SignUp extends Component {
+class Form extends Component {
   state = {
     ...userDetails
   };
@@ -85,4 +93,12 @@ class SignUp extends Component {
   }
 }
 
+const SignUpLink = () => (
+  <div>Don't have an account?<Link to="/signup">Sign up here</Link></div>
+)
+
+const SignUpForm = withRouter(Form)
+
 export default SignUp;
+
+export { SignUpLink, SignUpForm }

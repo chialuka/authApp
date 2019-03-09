@@ -2,13 +2,24 @@ import React, { Component } from "react";
 import axios from "axios"
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import { withRouter } from "react-router-dom"
+import { SignUpLink } from "./signup";
+
+
+const SignIn = () => (
+  <div>
+    Log In
+    <SignUpLink />
+    <SignInForm />
+  </div>
+)
 
 const userDetails = {
   email: "",
   password: "",
 };
 
-class SignIn extends Component {
+class Form extends Component {
   state = {
     ...userDetails
   };
@@ -62,4 +73,8 @@ class SignIn extends Component {
   }
 }
 
+const SignInForm = withRouter(Form)
+
 export default SignIn;
+
+export { SignInForm }
