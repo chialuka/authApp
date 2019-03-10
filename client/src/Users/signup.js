@@ -1,24 +1,26 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { withRouter, Link } from "react-router-dom"
+import { withRouter, Link } from "react-router-dom";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import Paper from "@material-ui/core/Paper";
 
-const SignUp = () => (
+const SignUpPage = () => (
   <div>
     Sign Up
-    <SignUpForm />
+    <SignUp />
   </div>
-)
+);
 
 const userDetails = {
   name: "",
   email: "",
   password: "",
-  password2: ""
+  password2: "",
+  error: null
 };
 
-class Form extends Component {
+class SignUpForm extends Component {
   state = {
     ...userDetails
   };
@@ -31,22 +33,27 @@ class Form extends Component {
     e.preventDefault();
     const { name, email, password, password2 } = this.state;
     axios
-    .post("/users/signup", {
-      name,
-      email,
-      password,
-      password2
-    })
-    .then(() => {
-      this.setState({ ...userDetails });
-      this.props.history.push("/home")
-    })
+      .post("/users/signup", {
+        name,
+        email,
+        password,
+        password2
+      })
+      .then(user => {
+        this.setState({ ...userDetails });
+        this.props.history.push("/home");
+        console.log(user);
+      })
+      .catch(error => {
+        this.setState({ error });
+        console.log(error);
+      });
   };
 
   render() {
-    const { name, email, password, password2 } = this.state;
+    const { name, email, password, password2, error } = this.state;
     return (
-      <form>
+      <Paper elevation={8}>
         <TextField
           required
           name="name"
@@ -85,20 +92,27 @@ class Form extends Component {
           onChange={this.handleChange}
           style={{ margin: 10 }}
         />
-        <Button onSubmit={this.handleSubmit} style={{ margin: 15 }}>
+        <Button
+          variant="contained"
+          style={{ margin: 15 }}
+          onClick={this.handleSubmit}
+        >
           Create Account
         </Button>
-      </form>
+        <div>{error && <p>{error.message}</p>}</div>
+      </Paper>
     );
   }
 }
 
 const SignUpLink = () => (
-  <div>Don't have an account?<Link to="/signup">Sign up here</Link></div>
-)
+  <div>
+    Don't have an account?<Link to="/signup">Sign up here</Link>
+  </div>
+);
 
-const SignUpForm = withRouter(Form)
+const SignUp = withRouter(SignUpForm);
 
-export default SignUp;
+export default SignUpPage;
 
-export { SignUpLink, SignUpForm }
+export { SignUpLink, SignUp };

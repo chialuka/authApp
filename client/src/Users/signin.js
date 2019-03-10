@@ -1,25 +1,26 @@
 import React, { Component } from "react";
-import axios from "axios"
+import axios from "axios";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import { withRouter } from "react-router-dom"
+import Paper from "@material-ui/core/Paper";
+import { withRouter } from "react-router-dom";
 import { SignUpLink } from "./signup";
 
-
-const SignIn = () => (
+const SignInPage = () => (
   <div>
     Log In
+    <SignIn />
     <SignUpLink />
-    <SignInForm />
   </div>
-)
+);
 
 const userDetails = {
   email: "",
   password: "",
+  error: null
 };
 
-class Form extends Component {
+class SignInForm extends Component {
   state = {
     ...userDetails
   };
@@ -32,20 +33,24 @@ class Form extends Component {
     e.preventDefault();
     const { email, password } = this.state;
     axios
-    .post("/users/signin", {
-      email,
-      password
-    })
-    .then(() => {
-      this.setState({ ...userDetails })
-      this.props.history.push("/home")
-    })
+      .post("/users/signin", {
+        email,
+        password
+      })
+      .then(() => {
+        this.setState({ ...userDetails });
+        this.props.history.push("/home");
+      })
+      .catch(error => {
+        this.setState({ error });
+        console.log(error);
+      });
   };
 
   render() {
-    const { email, password } = this.state;
+    const { email, password, error } = this.state;
     return (
-      <form>
+      <Paper elevation={8}>
         <TextField
           required
           name="email"
@@ -65,16 +70,17 @@ class Form extends Component {
           onChange={this.handleChange}
           style={{ margin: 10 }}
         />
-        <Button onSubmit={this.handleSubmit} style={{ margin: 15 }}>
+        <Button style={{ margin: 15 }} onClick={this.handleSubmit}>
           Log In
         </Button>
-      </form>
+        <div>{error && <div>{error.message}</div>}</div>
+      </Paper>
     );
   }
 }
 
-const SignInForm = withRouter(Form)
+const SignIn = withRouter(SignInForm);
 
-export default SignIn;
+export default SignInPage;
 
-export { SignInForm }
+export { SignIn };
