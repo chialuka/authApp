@@ -23,8 +23,13 @@ const userDetails = {
 class SignInForm extends Component {
   state = {
     ...userDetails,
-    token: (sessionStorage.token && JSON.parse(sessionStorage.token)) || ""
   };
+
+  componentDidMount() {
+    if(this.state.token) {
+      this.props.history.push("/home")
+    }
+  }
 
   handleChange = ({ target: { name, value } }) => {
     this.setState({ ...this.state, [name]: value });
@@ -41,8 +46,7 @@ class SignInForm extends Component {
       .then(res => {
         const { token } = res.data;
         this.props.setToken(token)
-       // sessionStorage["token"] = JSON.stringify(token)
-        this.setState({ ...userDetails , token: token});
+        this.setState({ ...userDetails });
         this.props.history.push("/home");
       })
       .catch(error => {
@@ -54,7 +58,7 @@ class SignInForm extends Component {
   render() {
     const { email, password, error } = this.state;
     return (
-      <Paper elevation={8}>
+      <Paper elevation={3}>
         <TextField
           required
           name="email"

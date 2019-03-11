@@ -22,8 +22,13 @@ const userDetails = {
 class SignUpForm extends Component {
   state = {
     ...userDetails,
-    token: (sessionStorage.token && JSON.parse(sessionStorage.token)) || ""
   };
+
+  componentDidMount() {
+    if (this.state.token) {
+      this.props.history.push("/home");
+    }
+  }
 
   handleChange = ({ target: { name, value } }) => {
     this.setState({ ...this.state, [name]: value });
@@ -41,10 +46,8 @@ class SignUpForm extends Component {
       })
       .then(user => {
         const { token } = user.data;
-        console.log(this.props.setToken);
         this.props.setToken(token);
-        //sessionStorage["token"] = JSON.stringify(token)
-        this.setState({ ...userDetails, token });
+        this.setState({ ...userDetails });
         this.props.history.push("/home");
       })
       .catch(error => {

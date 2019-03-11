@@ -25,7 +25,7 @@ class App extends Component {
             <Routes token={this.state.token}/>
             <hr />
             <Route exact path="/" component={LandingPage} />
-            <Route path="/home" component={HomePage} />
+            <Route exact path="/home" component={HomePage} />
             <Route
               path="/signin"
               render={props => (
