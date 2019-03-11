@@ -6,10 +6,10 @@ import Paper from "@material-ui/core/Paper";
 import { withRouter } from "react-router-dom";
 import { SignUpLink } from "./signup";
 
-const SignInPage = () => (
+const SignInPage = (props) => (
   <div>
     Log In
-    <SignIn />
+    <SignIn setToken={props.setToken}/>
     <SignUpLink />
   </div>
 );
@@ -39,8 +39,9 @@ class SignInForm extends Component {
         password
       })
       .then(res => {
-        const { token } = res.data
-        sessionStorage["token"] = JSON.stringify(token)
+        const { token } = res.data;
+        this.props.setToken(token)
+       // sessionStorage["token"] = JSON.stringify(token)
         this.setState({ ...userDetails , token: token});
         this.props.history.push("/home");
       })

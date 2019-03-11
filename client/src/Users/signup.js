@@ -7,7 +7,6 @@ import Paper from "@material-ui/core/Paper";
 
 const SignUpPage = () => (
   <div>
-    Sign Up
     <SignUp />
   </div>
 );
@@ -22,7 +21,8 @@ const userDetails = {
 
 class SignUpForm extends Component {
   state = {
-    ...userDetails
+    ...userDetails,
+    token: (sessionStorage.token && JSON.parse(sessionStorage.token)) || ""
   };
 
   handleChange = ({ target: { name, value } }) => {
@@ -40,7 +40,11 @@ class SignUpForm extends Component {
         password2
       })
       .then(user => {
-        this.setState({ ...userDetails });
+        const { token } = user.data;
+        console.log(this.props.setToken);
+        this.props.setToken(token);
+        //sessionStorage["token"] = JSON.stringify(token)
+        this.setState({ ...userDetails, token });
         this.props.history.push("/home");
       })
       .catch(error => {
@@ -52,54 +56,57 @@ class SignUpForm extends Component {
   render() {
     const { name, email, password, password2, error } = this.state;
     return (
-      <Paper elevation={8}>
-        <TextField
-          required
-          name="name"
-          label="name"
-          placeholder="Enter your full name"
-          value={name}
-          onChange={this.handleChange}
-          style={{ margin: 10 }}
-        />
-        <TextField
-          required
-          name="email"
-          label="Email Address"
-          placeholder="Enter your email address"
-          value={email}
-          onChange={this.handleChange}
-          style={{ margin: 10 }}
-        />
-        <TextField
-          required
-          name="password"
-          label="Password"
-          type="password"
-          placeholder="Enter a strong password"
-          value={password}
-          onChange={this.handleChange}
-          style={{ margin: 10 }}
-        />
-        <TextField
-          required
-          name="password2"
-          label="Confirm Password"
-          type="password"
-          placeholder="Confirm your password"
-          value={password2}
-          onChange={this.handleChange}
-          style={{ margin: 10 }}
-        />
-        <Button
-          variant="contained"
-          style={{ margin: 15 }}
-          onClick={this.handleSubmit}
-        >
-          Create Account
-        </Button>
-        <div>{error && <p>{error.message}</p>}</div>
-      </Paper>
+      <div>
+        <div>Sign Up</div>
+        <Paper elevation={8}>
+          <TextField
+            required
+            name="name"
+            label="name"
+            placeholder="Enter your full name"
+            value={name}
+            onChange={this.handleChange}
+            style={{ margin: 10 }}
+          />
+          <TextField
+            required
+            name="email"
+            label="Email Address"
+            placeholder="Enter your email address"
+            value={email}
+            onChange={this.handleChange}
+            style={{ margin: 10 }}
+          />
+          <TextField
+            required
+            name="password"
+            label="Password"
+            type="password"
+            placeholder="Enter a strong password"
+            value={password}
+            onChange={this.handleChange}
+            style={{ margin: 10 }}
+          />
+          <TextField
+            required
+            name="password2"
+            label="Confirm Password"
+            type="password"
+            placeholder="Confirm your password"
+            value={password2}
+            onChange={this.handleChange}
+            style={{ margin: 10 }}
+          />
+          <Button
+            variant="contained"
+            style={{ margin: 15 }}
+            onClick={this.handleSubmit}
+          >
+            Create Account
+          </Button>
+          <div>{error && <p>{error.message}</p>}</div>
+        </Paper>
+      </div>
     );
   }
 }

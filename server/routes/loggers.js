@@ -29,7 +29,19 @@ router.post("/signup", (req, res) => {
         newUser.password = hash;
         newUser
           .save()
-          .then(user => res.json(user))
+          .then(user => {
+            const payload = {
+              id: user.id,
+              name: user.name
+            };
+            jwt.sign(payload, key.key, { expiresIn: "1h" }, (err, token) => {
+              res.json({
+                user,
+                success: true,
+                token: token
+              });
+            })
+          })
           .catch(err => console.log(err));
       });
     }
