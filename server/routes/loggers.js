@@ -56,20 +56,12 @@ router.post("/signin", (req, res) => {
           id: user.id,
           name: user.name
         };
-
-        jwt.sign(
-          {
-            data: payload
-          },
-          key,
-          { expiresIn: "30m" },
-          token => {
-            res.json({
-              success: true,
-              token: "Bearer " + token
-            });
-          }
-        );
+        jwt.sign(payload, key.key, { expiresIn: "1h" }, (err, token) => {
+          res.json({
+            success: true,
+            token: "Bearer " + token
+          });
+        });
       } else {
         return res
           .status(400)

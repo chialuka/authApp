@@ -42,7 +42,6 @@ class SignUpForm extends Component {
       .then(user => {
         this.setState({ ...userDetails });
         this.props.history.push("/home");
-        console.log(user);
       })
       .catch(error => {
         this.setState({ error });

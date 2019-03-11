@@ -22,7 +22,8 @@ const userDetails = {
 
 class SignInForm extends Component {
   state = {
-    ...userDetails
+    ...userDetails,
+    token: (sessionStorage.token && JSON.parse(sessionStorage.token)) || ""
   };
 
   handleChange = ({ target: { name, value } }) => {
@@ -37,8 +38,10 @@ class SignInForm extends Component {
         email,
         password
       })
-      .then(() => {
-        this.setState({ ...userDetails });
+      .then(res => {
+        const { token } = res.data
+        sessionStorage["token"] = JSON.stringify(token)
+        this.setState({ ...userDetails , token: token});
         this.props.history.push("/home");
       })
       .catch(error => {
