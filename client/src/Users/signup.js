@@ -25,7 +25,7 @@ class SignUpForm extends Component {
   };
 
   componentDidMount() {
-    if (this.state.token) {
+    if (sessionStorage.token) {
       this.props.history.push("/home");
     }
   }

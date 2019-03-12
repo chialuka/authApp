@@ -1,9 +1,12 @@
 import React from "react";
 
-const HomePage = () => (
-  <div>
-    Home is where the heart belongs...
-  </div>
-)
+const HomePage = () => {
+  if (!sessionStorage.token) {
+    window.location.href = "/"
+  }
+  return(
+    <div>Home is where the heart belongs...</div>
+  )
+};
 
-export default HomePage
+export default HomePage;
