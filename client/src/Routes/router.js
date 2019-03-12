@@ -3,10 +3,10 @@ import { Link } from "react-router-dom";
 import SignOut from "../Users/signout";
 
 const Routes = ({ token }) => (
-  <div>{token.length > 0 ? <RouterAuth /> : <RouterNonAuth />}</div>
+  <div>{token.length ? <RouterAuth token={token}/> : <RouterNonAuth />}</div>
 );
 
-const RouterAuth = () => (
+const RouterAuth = (token) => (
   <ul>
     <li>
       <Link to="/">Front Page</Link>
@@ -14,7 +14,7 @@ const RouterAuth = () => (
     <li>
       <Link to="/home">Home</Link>
     </li>
-    <SignOut />
+    <SignOut token={token}/>
   </ul>
 );
 
@@ -31,6 +31,5 @@ const RouterNonAuth = () => (
     </li>
   </ul>
 );
-
 
 export default Routes;

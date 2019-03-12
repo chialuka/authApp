@@ -11,6 +11,7 @@ class App extends Component {
     token: (sessionStorage.token && JSON.parse(sessionStorage.token)) || ""
   };
 
+
   setToken = token => {
     this.setState({ token });
     sessionStorage.token = JSON.stringify(token);
