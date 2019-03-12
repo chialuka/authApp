@@ -1,16 +1,18 @@
-const config = require("./keys");
-const User = require("../database/models/user")
+const Users = require("../database/models/user");
+const passport = require("passport");
 const JwtStrategy = require("passport-jwt").Strategy;
 const ExtractJwt = require("passport-jwt").ExtractJwt;
+const GoogleStrategy = require("passport-google-oauth20").Strategy;
+const dotenv = require("dotenv")
 
 const opts = {};
 
 opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
-opts.secretOrKey = config.key;
+opts.secretOrKey = `${process.env.secret}`;
 
-module.exports = passport => {
-  passport.use(new JwtStrategy(opts, function(jwt_payload, done) {
-    User.findOne({ id: jwt_payload.sub}, function(err, user) {
+module.exports = {
+  passport: passport.use(new JwtStrategy(opts, function(jwt_payload, done) {
+    Users.findOne({ id: jwt_payload.sub}, function(err, user) {
       if (err) {
         return done(err, false)
       }
@@ -19,6 +21,16 @@ module.exports = passport => {
       } else {
         return done(null, false)
       }
+    })
+  })),
+  google: passport.use(new GoogleStrategy({
+    clientID: `${process.env.clientID}`,
+    clientSecret: `${process.env.secret}`,
+    callbackURL: "http://localhost:3000"
+  },
+  function(accessToken, refreshToken, profile, cb) {
+    User.findOrCreate({ googleId: profile.id }, function(err, user) {
+      return cb(err, user)
     })
   }))
 }

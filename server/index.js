@@ -18,7 +18,6 @@ app.use(
 app.use(bodyParser.json());
 
 app.use(passport.initialize());
-require("./config/passport")(passport)
 
 app.use("/users", users)
 

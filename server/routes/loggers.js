@@ -3,7 +3,10 @@ const router = express.Router();
 const User = require("./../database/models/user");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const key = require("../config/keys");
+
+
+const dotenv = require("dotenv")
+const key = `${process.env.secret}`;
 
 const validateRegistration = require("../validator/register");
 const validateLogin = require("../validator/login");
@@ -34,7 +37,7 @@ router.post("/signup", (req, res) => {
               id: user.id,
               name: user.name
             };
-            jwt.sign(payload, key.key, { expiresIn: "1h" }, (err, token) => {
+            jwt.sign(payload, key, { expiresIn: "1h" }, (err, token) => {
               res.json({
                 user,
                 success: true,
@@ -68,7 +71,7 @@ router.post("/signin", (req, res) => {
           id: user.id,
           name: user.name
         };
-        jwt.sign(payload, key.key, { expiresIn: "1h" }, (err, token) => {
+        jwt.sign(payload, key, { expiresIn: "1h" }, (err, token) => {
           res.json({
             success: true,
             token: "Bearer " + token
