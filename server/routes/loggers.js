@@ -3,10 +3,14 @@ const router = express.Router();
 const User = require("./../database/models/user");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const passport = require("passport");
+const methods = require("../config/passport")
 
+const googleMethod = methods.google
+const google = googleMethod._strategies.google.name;
 
-const dotenv = require("dotenv")
-const key = `${process.env.secret}`;
+require("dotenv").config();
+const key = process.env.secret;
 
 const validateRegistration = require("../validator/register");
 const validateLogin = require("../validator/login");
@@ -43,7 +47,7 @@ router.post("/signup", (req, res) => {
                 success: true,
                 token: token
               });
-            })
+            });
           })
           .catch(err => console.log(err));
       });
@@ -85,6 +89,18 @@ router.post("/signin", (req, res) => {
     });
   });
 });
+
+router.get(
+  "/auth/google",
+  passport.authenticate(google, { scope: ["profile"] })
+),
+  router.get(
+    "auth/google/callback",
+    passport.authenticate("google", { failureRedirect: "/signin" }),
+    function(req, res) {
+      res.redirect("/home");
+    }
+  );
 
 // router.get(
 //   "/currentUser",

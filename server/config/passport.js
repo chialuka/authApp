@@ -3,15 +3,15 @@ const passport = require("passport");
 const JwtStrategy = require("passport-jwt").Strategy;
 const ExtractJwt = require("passport-jwt").ExtractJwt;
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
-const dotenv = require("dotenv")
+require("dotenv").config()
 
 const opts = {};
 
 opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
-opts.secretOrKey = `${process.env.secret}`;
+opts.secretOrKey = process.env.secret;
 
 module.exports = {
-  passport: passport.use(new JwtStrategy(opts, function(jwt_payload, done) {
+  passportJWT: passport.use(new JwtStrategy(opts, function(jwt_payload, done) {
     Users.findOne({ id: jwt_payload.sub}, function(err, user) {
       if (err) {
         return done(err, false)
@@ -24,8 +24,8 @@ module.exports = {
     })
   })),
   google: passport.use(new GoogleStrategy({
-    clientID: `${process.env.clientID}`,
-    clientSecret: `${process.env.secret}`,
+    clientID: process.env.clientID,
+    clientSecret: process.env.secret,
     callbackURL: "http://localhost:3000"
   },
   function(accessToken, refreshToken, profile, cb) {

@@ -11,7 +11,6 @@ const SignOut = ({ token }) => {
     sessionStorage.removeItem("token");
     window.location.href = "/";
   };
-  console.log(decodedToken.exp, currentTime, decodedToken.exp - currentTime);
   if (decodedToken.exp < currentTime) return logOut();
   return <Button onClick={logOut}>Sign Out</Button>;
 };
