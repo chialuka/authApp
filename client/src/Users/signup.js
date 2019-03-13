@@ -38,7 +38,7 @@ class SignUpForm extends Component {
     e.preventDefault();
     const { name, email, password, password2 } = this.state;
     axios
-      .post("/users/signup", {
+      .post("/api/signup", {
         name,
         email,
         password,

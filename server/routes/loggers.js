@@ -1,12 +1,13 @@
 const express = require("express");
 const router = express.Router();
-const User = require("./../database/models/user");
+const Users = require("./../database/models/user");
+const User = Users.User;
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const passport = require("passport");
-const methods = require("../config/passport")
+const methods = require("../config/passport");
 
-const googleMethod = methods.google
+const googleMethod = methods.google;
 const google = googleMethod._strategies.google.name;
 
 require("dotenv").config();
@@ -80,6 +81,7 @@ router.post("/signin", (req, res) => {
             success: true,
             token: "Bearer " + token
           });
+          console.log(token);
         });
       } else {
         return res
@@ -92,15 +94,30 @@ router.post("/signin", (req, res) => {
 
 router.get(
   "/auth/google",
-  passport.authenticate(google, { scope: ["profile"] })
-),
-  router.get(
-    "auth/google/callback",
-    passport.authenticate("google", { failureRedirect: "/signin" }),
-    function(req, res) {
-      res.redirect("/home");
-    }
-  );
+  passport.authenticate(google, {
+    scope: ["profile", "email"]
+  })
+);
+
+router.get(
+  "/auth/google/callback",
+  passport.authenticate(google, { failureRedirect: "http://localhost:3000/signin" }),
+  function(req, res) {
+    console.log(res.req.user);
+    const payload = {
+      id: res.req.user._id,
+      name: res.req.user.name
+    };
+    jwt.sign(payload, key, { expiresIn: "1h" }, (err, token) => {
+      res.json({
+        success: true,
+        token: token
+      });
+      console.log(payload, token);
+    });
+    res.redirect("http://localhost:3000/home");
+  }
+);
 
 // router.get(
 //   "/currentUser",

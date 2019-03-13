@@ -2,6 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const passport = require("passport");
 const database = require("./database");
+const cors = require("cors")
 
 const users = require("./routes/loggers")
 
@@ -17,10 +18,12 @@ app.use(
 
 app.use(bodyParser.json());
 
+app.use(cors())
+
 app.use(passport.initialize());
 
-app.use("/users", users)
+app.use("/api", users)
 
 database.once("open", () => {
-  app.listen(port, () => console.log("server running on port", port));
+  app.listen(port, () => console.log("We make magic on port", port));
 });

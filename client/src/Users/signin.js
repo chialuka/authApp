@@ -6,10 +6,10 @@ import Paper from "@material-ui/core/Paper";
 import { withRouter } from "react-router-dom";
 import { SignUpLink } from "./signup";
 
-const SignInPage = (props) => (
+const SignInPage = props => (
   <div>
     Log In
-    <SignIn setToken={props.setToken}/>
+    <SignIn setToken={props.setToken} />
     <SignUpLink />
   </div>
 );
@@ -22,12 +22,12 @@ const userDetails = {
 
 class SignInForm extends Component {
   state = {
-    ...userDetails,
+    ...userDetails
   };
 
   componentDidMount() {
-    if(sessionStorage.token) {
-      this.props.history.push("/home")
+    if (sessionStorage.token) {
+      this.props.history.push("/home");
     }
   }
 
@@ -39,13 +39,13 @@ class SignInForm extends Component {
     e.preventDefault();
     const { email, password } = this.state;
     axios
-      .post("/users/signin", {
+      .post("/api/signin", {
         email,
         password
       })
       .then(res => {
         const { token } = res.data;
-        this.props.setToken(token)
+        this.props.setToken(token);
         this.setState({ ...userDetails });
         this.props.history.push("/home");
       })
@@ -55,34 +55,53 @@ class SignInForm extends Component {
       });
   };
 
+  signInWithGoogle = e => {
+    e.preventDefault();
+    //window.location.href = "/api/auth/google";
+    axios
+      .get("/api/auth/google")
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
   render() {
     const { email, password, error } = this.state;
     return (
-      <Paper elevation={3}>
-        <TextField
-          required
-          name="email"
-          label="Email Address"
-          placeholder="Enter your email address"
-          value={email}
-          onChange={this.handleChange}
-          style={{ margin: 10 }}
-        />
-        <TextField
-          required
-          name="password"
-          label="Password"
-          type="password"
-          placeholder="Enter a strong password"
-          value={password}
-          onChange={this.handleChange}
-          style={{ margin: 10 }}
-        />
-        <Button style={{ margin: 15 }} onClick={this.handleSubmit}>
-          Log In
-        </Button>
-        <div>{error && <div>{error.message}</div>}</div>
-      </Paper>
+      <div>
+        <Paper elevation={3}>
+          <TextField
+            required
+            name="email"
+            label="Email Address"
+            placeholder="Enter your email address"
+            value={email}
+            onChange={this.handleChange}
+            style={{ margin: 10 }}
+          />
+          <TextField
+            required
+            name="password"
+            label="Password"
+            type="password"
+            placeholder="Enter a strong password"
+            value={password}
+            onChange={this.handleChange}
+            style={{ margin: 10 }}
+          />
+          <Button style={{ margin: 15 }} onClick={this.handleSubmit}>
+            Log In
+          </Button>
+          <div>{error && <div>{error.message}</div>}</div>
+        </Paper>
+        <div>
+          Have a Google account?
+          <Button onClick={this.signInWithGoogle}>Sign in</Button>
+        </div>
+      </div>
     );
   }
 }
