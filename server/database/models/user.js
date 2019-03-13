@@ -12,20 +12,7 @@ const UserSchema = new Schema({
   },
   password: {
     type: String,
-    required: true
   }
 });
 
-const GoogleSchema = new Schema({
-  name: {
-    type: String,
-    required: true
-  },
-  email: {
-    type: String,
-    required: true
-  }
-})
-
-exports.User = mongoose.model("User", UserSchema);
-exports.GoogleUser = mongoose.model("GoogleUser", GoogleSchema)
+module.exports = User = mongoose.model("User", UserSchema);

@@ -1,6 +1,4 @@
-const Users = require("../database/models/user");
-const User = Users.User;
-const GoogleUser = Users.GoogleUser;
+const User = require("../database/models/user");
 const passport = require("passport");
 const JwtStrategy = require("passport-jwt").Strategy;
 const ExtractJwt = require("passport-jwt").ExtractJwt;
@@ -40,7 +38,7 @@ module.exports = {
             if (user) {
               return cb(null, user);
             } else {
-              const newUser = new GoogleUser({
+              const newUser = new User({
                 name: profile.displayName,
                 email: profile.emails[0].value
               });
