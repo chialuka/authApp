@@ -5,6 +5,12 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const passport = require("passport");
 const methods = require("../config/passport");
+const cors = require("cors");
+
+const corsOptions = {
+  origin: "http://localhost:3000",
+  optionsSuccessStatus: 200
+}
 
 const googleMethod = methods.google;
 const google = googleMethod._strategies.google.name;
@@ -93,28 +99,23 @@ router.post("/signin", (req, res) => {
 
 router.get(
   "/auth/google",
+  cors(corsOptions),
   passport.authenticate(google, {
     scope: ["profile", "email"]
-  })
+  }),
+  (req, res) => {
+    res.status(200);
+  }
 );
 
 router.get(
   "/auth/google/callback",
-  passport.authenticate(google, { failureRedirect: "http://localhost:3000/signin" }),
+  passport.authenticate(google, {
+    failureRedirect: "http://localhost:3000/signin"
+  }),
   function(req, res) {
-    console.log(res.req.user);
-    const payload = {
-      id: res.req.user._id,
-      name: res.req.user.name
-    };
-    jwt.sign(payload, key, { expiresIn: "1h" }, (err, token) => {
-      res.json({
-        success: true,
-        token: token
-      });
-      console.log(payload, token);
-    });
-    res.redirect("http://localhost:3000/home");
+
+    res.redirect(`${process.env.FRONTEND_URL}/?token=${res.req.user.token}`);
   }
 );
 

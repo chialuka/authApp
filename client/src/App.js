@@ -18,7 +18,6 @@ class App extends Component {
   };
 
   render() {
-    console.log(this.state.token)
     return (
       <div className="App">
         <Router>

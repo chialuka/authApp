@@ -3,6 +3,7 @@ const passport = require("passport");
 const JwtStrategy = require("passport-jwt").Strategy;
 const ExtractJwt = require("passport-jwt").ExtractJwt;
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
+const jwt = require("jsonwebtoken")
 require("dotenv").config();
 
 const opts = {};
@@ -30,7 +31,7 @@ module.exports = {
       {
         clientID: process.env.clientID,
         clientSecret: process.env.clientSecret,
-        callbackURL: "http://localhost:7000/api/auth/google/callback"
+        callbackURL: `${process.env.BACKEND_URL}/api/auth/google/callback`
       },
       function(accessToken, refreshToken, profile, cb) {
         process.nextTick(() => {
@@ -45,6 +46,12 @@ module.exports = {
               newUser
                 .save()
                 .then(user => {
+                  const payload = {
+                    id: user.id,
+                    name: user.name
+                  };
+                  const token = jwt.sign(payload, process.env.secret, { expiresIn: "1h" });
+                  user.token = token;
                   cb(null, user);
                 })
                 .catch(err => console.log(err));

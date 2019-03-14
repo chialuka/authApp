@@ -27,7 +27,7 @@ const RouterNonAuth = () => (
       <Link to="/signup">Sign Up</Link>
     </li>
     <li>
-      <Link to="/signin">Login</Link>
+      <Link to="/signin">Sign In</Link>
     </li>
   </ul>
 );
