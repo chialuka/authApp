@@ -4,6 +4,7 @@ import { withRouter, Link } from "react-router-dom";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Paper from "@material-ui/core/Paper";
+import { SignInLink } from "./signin";
 
 const SignUpPage = () => (
   <div>
@@ -108,6 +109,7 @@ class SignUpForm extends Component {
             Create Account
           </Button>
           <div>{error && <p>{error.message}</p>}</div>
+          <SignInLink />
         </Paper>
       </div>
     );
@@ -115,7 +117,7 @@ class SignUpForm extends Component {
 }
 
 const SignUpLink = () => (
-  <div>
+  <div className="signUpLink">
     Don't have an account?<Link to="/signup"> Sign up here</Link>
   </div>
 );

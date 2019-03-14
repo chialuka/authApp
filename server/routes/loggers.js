@@ -9,8 +9,8 @@ const cors = require("cors");
 
 const corsOptions = {
   origin: "http://localhost:3000",
-  optionsSuccessStatus: 200
-}
+  optionsSuccessStatus: 200,
+};
 
 const googleMethod = methods.google;
 const google = googleMethod._strategies.google.name;
@@ -86,7 +86,6 @@ router.post("/signin", (req, res) => {
             success: true,
             token: "Bearer " + token
           });
-          console.log(token);
         });
       } else {
         return res
@@ -111,10 +110,9 @@ router.get(
 router.get(
   "/auth/google/callback",
   passport.authenticate(google, {
-    failureRedirect: "http://localhost:3000/signin"
+    failureRedirect: `${process.env.FRONTEND_URL}/signin`
   }),
   function(req, res) {
-
     res.redirect(`${process.env.FRONTEND_URL}/?token=${res.req.user.token}`);
   }
 );

@@ -3,7 +3,7 @@ import axios from "axios";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Paper from "@material-ui/core/Paper";
-import { withRouter } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 import { SignUpLink } from "./signup";
 
 const SignInPage = props => (
@@ -53,19 +53,6 @@ class SignInForm extends Component {
       });
   };
 
-  signInWithGoogle = e => {
-    e.preventDefault();
-    //window.location.href = "/api/auth/google";
-    axios
-      .get("/api/auth/google")
-      .then(res => {
-        console.log(res);
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  };
-
   render() {
     const { email, password, error } = this.state;
     return (
@@ -99,9 +86,12 @@ class SignInForm extends Component {
             Log In
           </Button>
           <div>{error && <div>{error.message}</div>}</div>
-          <div className="googleSignIn">
-            <Button onClick={this.signInWithGoogle} className="button">Sign in With Google</Button>
-          </div>
+          <a
+            href="http://localhost:7000/api/auth/google"
+            className="googleSignIn"
+          >
+            Sign in With Google?
+          </a>
           <SignUpLink />
         </Paper>
       </div>
@@ -109,8 +99,14 @@ class SignInForm extends Component {
   }
 }
 
+const SignInLink = () => (
+  <div className="signInLink">
+    Have an account? <Link to="/signin">Login</Link>
+  </div>
+);
+
 const SignIn = withRouter(SignInForm);
 
 export default SignInPage;
 
-export { SignIn };
+export { SignIn, SignInLink };

@@ -3,10 +3,10 @@ import { Link } from "react-router-dom";
 import SignOut from "../Users/signout";
 
 const Routes = ({ token }) => (
-  <div>{token.length ? <RouterAuth token={token}/> : <RouterNonAuth />}</div>
+  <div>{token.length ? <RouterAuth token={token} /> : <RouterNonAuth />}</div>
 );
 
-const RouterAuth = (token) => (
+const RouterAuth = token => (
   <div className="routes">
     <div className="link">
       <Link to="/">Front Page</Link>
@@ -14,7 +14,9 @@ const RouterAuth = (token) => (
     <div className="link">
       <Link to="/home">Home</Link>
     </div>
-    <SignOut token={token} className="link"/>
+    <div className="link">
+      <SignOut token={token} />
+    </div>
   </div>
 );
 

@@ -29,3 +29,28 @@ code {
 .link {
   padding: 10px;
 }
+
+.signOut {
+  cursor: pointer;
+  color: rgb(80, 9, 146)
+}
+
+.googleSignIn {
+  cursor: pointer;
+  padding: 5px;
+  font-weight: bold;
+  color: #4e4e53
+}
+
+.googleSignIn:hover {
+  background-color: #e2d9e2;
+  font-weight: bolder;
+}
+
+.signUpLink {
+  padding: 10px;
+}
+
+.signInLink {
+  padding: 10px;
+}

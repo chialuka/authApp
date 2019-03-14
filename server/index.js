@@ -22,7 +22,8 @@ app.use(cors())
 
 app.use(passport.initialize());
 
-app.use("/api", users)
+app.use("/api", users);
+
 
 database.once("open", () => {
   app.listen(port, () => console.log("We make magic on port", port));
