@@ -8,9 +8,7 @@ import { SignUpLink } from "./signup";
 
 const SignInPage = props => (
   <div>
-    Log In
     <SignIn setToken={props.setToken} />
-    <SignUpLink />
   </div>
 );
 
@@ -72,7 +70,8 @@ class SignInForm extends Component {
     const { email, password, error } = this.state;
     return (
       <div>
-        <Paper elevation={3}>
+        <Paper elevation={3} className="paper">
+          Log In
           <TextField
             required
             name="email"
@@ -92,15 +91,19 @@ class SignInForm extends Component {
             onChange={this.handleChange}
             style={{ margin: 10 }}
           />
-          <Button style={{ margin: 15 }} onClick={this.handleSubmit}>
+          <Button
+            variant="contained"
+            style={{ margin: 15 }}
+            onClick={this.handleSubmit}
+          >
             Log In
           </Button>
           <div>{error && <div>{error.message}</div>}</div>
+          <div className="googleSignIn">
+            <Button onClick={this.signInWithGoogle} className="button">Sign in With Google</Button>
+          </div>
+          <SignUpLink />
         </Paper>
-        <div>
-          Have a Google account?
-          <Button onClick={this.signInWithGoogle}>Sign in</Button>
-        </div>
       </div>
     );
   }

@@ -22,7 +22,7 @@ class App extends Component {
       <div className="App">
         <Router>
           <div>
-            <Routes token={this.state.token}/>
+            <Routes token={this.state.token} className="navigation"/>
             <hr />
             <Route exact path="/" component={LandingPage} />
             <Route exact path="/home" component={HomePage} />

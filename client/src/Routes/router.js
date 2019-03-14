@@ -7,29 +7,29 @@ const Routes = ({ token }) => (
 );
 
 const RouterAuth = (token) => (
-  <ul>
-    <li>
+  <div className="routes">
+    <div className="link">
       <Link to="/">Front Page</Link>
-    </li>
-    <li>
+    </div>
+    <div className="link">
       <Link to="/home">Home</Link>
-    </li>
-    <SignOut token={token}/>
-  </ul>
+    </div>
+    <SignOut token={token} className="link"/>
+  </div>
 );
 
 const RouterNonAuth = () => (
-  <ul>
-    <li>
+  <div className="routes">
+    <div className="link">
       <Link to="/">Front Page</Link>
-    </li>
-    <li>
+    </div>
+    <div className="link">
       <Link to="/signup">Sign Up</Link>
-    </li>
-    <li>
+    </div>
+    <div className="link">
       <Link to="/signin">Sign In</Link>
-    </li>
-  </ul>
+    </div>
+  </div>
 );
 
 export default Routes;

@@ -21,7 +21,7 @@ const userDetails = {
 
 class SignUpForm extends Component {
   state = {
-    ...userDetails,
+    ...userDetails
   };
 
   componentDidMount() {
@@ -60,8 +60,8 @@ class SignUpForm extends Component {
     const { name, email, password, password2, error } = this.state;
     return (
       <div>
-        <div>Sign Up</div>
-        <Paper elevation={8}>
+        <Paper elevation={3} className="paper">
+          Sign Up
           <TextField
             required
             name="name"
@@ -116,7 +116,7 @@ class SignUpForm extends Component {
 
 const SignUpLink = () => (
   <div>
-    Don't have an account?<Link to="/signup">Sign up here</Link>
+    Don't have an account?<Link to="/signup"> Sign up here</Link>
   </div>
 );
 
