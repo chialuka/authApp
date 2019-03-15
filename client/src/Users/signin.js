@@ -24,7 +24,7 @@ class SignInForm extends Component {
   };
 
   componentDidMount() {
-    if (sessionStorage.token) {
+    if (localStorage.token) {
       this.props.history.push("/home");
     }
   }

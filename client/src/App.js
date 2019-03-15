@@ -8,13 +8,13 @@ import { SignUp } from "./Users/signup";
 
 class App extends Component {
   state = {
-    token: (sessionStorage.token && JSON.parse(sessionStorage.token)) || ""
+    token: (localStorage.token && JSON.parse(localStorage.token)) || ""
   };
 
 
   setToken = token => {
     this.setState({ token });
-    sessionStorage.token = JSON.stringify(token);
+    localStorage.token = JSON.stringify(token);
   };
 
   render() {

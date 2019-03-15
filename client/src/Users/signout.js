@@ -7,7 +7,7 @@ const SignOut = ({ token }) => {
 
   const currentTime = Date.now() / 1000;
   const logOut = () => {
-    sessionStorage.removeItem("token");
+    localStorage.removeItem("token");
     window.location.href = "/";
   };
   if (decodedToken.exp < currentTime) return logOut();

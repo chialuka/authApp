@@ -4,7 +4,7 @@ const LandingPage = () => {
   const token = window.location.search
   if (token) {
     const tok = token.slice(8);
-    sessionStorage.setItem("token", JSON.stringify(tok))
+    localStorage.setItem("token", JSON.stringify(tok))
     window.location.href = "/home"
   }
   return (

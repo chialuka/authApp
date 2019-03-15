@@ -54,3 +54,13 @@ code {
 .signInLink {
   padding: 10px;
 }
+
+a {
+  text-decoration: none;
+  color: #22223f;
+  font-weight: bold;
+}
+
+.link a {
+  color: white;
+}
