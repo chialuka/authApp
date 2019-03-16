@@ -2,7 +2,9 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const passport = require("passport");
 const database = require("./database");
-const cors = require("cors")
+const session = require("express-session")
+const cors = require("cors");
+const uuid = require("uuid")
 
 require("dotenv").config()
 
@@ -11,6 +13,15 @@ const users = require("./routes/loggers")
 const port = process.env.port || 7000;
 
 const app = express();
+
+app.use(session({
+  genid: (req) => {
+    return uuid()
+  },
+  secret: process.env.sessionSecret,
+  saveUninitialized: true,
+  resave: false,
+}));
 
 app.use(
   bodyParser.urlencoded({
@@ -24,6 +35,7 @@ app.use(cors())
 
 app.use(passport.initialize());
 
+app.use(passport.session());
 
 app.use("/api", users);
 

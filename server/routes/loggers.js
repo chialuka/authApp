@@ -9,11 +9,14 @@ const cors = require("cors");
 
 const corsOptions = {
   origin: "http://localhost:3000",
-  optionsSuccessStatus: 200,
+  optionsSuccessStatus: 200
 };
 
 const googleMethod = methods.google;
 const google = googleMethod._strategies.google.name;
+const localMethod = methods.local;
+const local = localMethod._strategies.local.name
+console.log(local)
 
 require("dotenv").config();
 const key = process.env.secret;
@@ -47,15 +50,11 @@ router.post("/signup", (req, res) => {
               id: user.id,
               name: user.name
             };
-            jwt.sign(payload, key, { expiresIn: "1h" }, (err, token) => {
-              res.json({
-                user,
-                success: true,
-                token: token
-              });
-            });
           })
           .catch(err => console.log(err));
+      });
+      passport.authenticate(local, (req, res) => {
+        res.redirect(`${process.env.FRONTEND_URL}/home`);
       });
     }
   });
@@ -77,15 +76,10 @@ router.post("/signin", (req, res) => {
 
     bcrypt.compare(req.body.password, user.password).then(isMatch => {
       if (isMatch) {
-        const payload = {
-          id: user.id,
-          name: user.name
-        };
-        jwt.sign(payload, key, { expiresIn: "1h" }, (err, token) => {
-          res.json({
-            success: true,
-            token: "Bearer " + token
-          });
+        console.log("we have a match")
+        passport.authenticate(local, (req, res) => {
+          console.log(req, res, "correct")
+          res.redirect(`${process.env.FRONTEND_URL}/home`);
         });
       } else {
         return res

@@ -1,29 +1,28 @@
 const User = require("../database/models/user");
 const passport = require("passport");
-const JwtStrategy = require("passport-jwt").Strategy;
-const ExtractJwt = require("passport-jwt").ExtractJwt;
+const LocalStrategy = require("passport-local").Strategy;
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const jwt = require("jsonwebtoken")
 require("dotenv").config();
 
 const opts = {};
 
-opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 opts.secretOrKey = process.env.secret;
 
 module.exports = {
-  passportJWT: passport.use(
-    new JwtStrategy(opts, function(jwt_payload, done) {
-      User.findOne({ id: jwt_payload.sub }, function(err, user) {
-        if (err) {
-          return done(err, false);
+  local: passport.use(
+    new LocalStrategy( function(username, password, cb) {
+      console.log(username, password)
+      User.findOne({ name: username }).then(user => {
+        if (!user) {
+          return cb(null, false);
         }
-        if (user) {
-          return done(null, user);
-        } else {
-          return done(null, false);
-        }
-      });
+        console.log(user)
+        return cb(null, user)
+      })
+      .catch(err => {
+        return cb(err)
+      })
     })
   ),
   google: passport.use(
