@@ -42,10 +42,10 @@ class SignInForm extends Component {
         password
       })
       .then(res => {
-        const { token } = res.data;
-        this.props.setToken(token);
+        // const { token } = res.data;
+        // this.props.setToken(token);
         this.setState({ ...userDetails });
-        this.props.history.push("/home");
+        //this.props.history.push("/home");
       })
       .catch(error => {
         this.setState({ error });
